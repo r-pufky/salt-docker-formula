@@ -1,0 +1,3 @@
+{%- import_yaml "docker/defaults.yaml" as defaults -%}
+
+{%- set docker = salt['pillar.get']('docker:lookup', defaults.docker, merge=True) -%}

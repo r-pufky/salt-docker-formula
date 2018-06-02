@@ -1,0 +1,14 @@
+docker:
+  lookup:
+    # see defaults.yaml for values, the options listed here
+    service: docker
+    package: docker-ce
+
+    package_dependencies:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+
+    release:
+      reference_doc: https://docs.docker.com/install/linux/docker-ce/ubuntu/
