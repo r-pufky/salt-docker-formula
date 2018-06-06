@@ -21,8 +21,9 @@ copy_docker_scripts:
   file.recurse:
     - name: {{ docker.get('path.linux', docker.path.linux) }}
     - source: 'salt://docker/files'
-    - dir_mode: 0755
-    - file_mode: 0744
+    - template: jinja
+    - dir_mode: 0750
+    - file_mode: 0740
     - user: root
     - group: staff
 

@@ -8,6 +8,8 @@ docker:
     - curl
     - software-properties-common
 
+  container_uid: 1001
+  container_gid: 1001
   path:
     windows:
     osx:
