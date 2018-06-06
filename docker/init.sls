@@ -17,6 +17,15 @@ docker_package_dependencies:
       - {{ pkg }}
 {%- endfor %}
 
+copy_docker_scripts:
+  file.recurse:
+    - name: {{ docker.get('path.linux', docker.path.linux) }}
+    - source: 'salt://docker/files'
+    - dir_mode: 0755
+    - file_mode: 0744
+    - user: root
+    - group: staff
+
 docker_service:
   service.running:
     - name: {{ docker.service }}

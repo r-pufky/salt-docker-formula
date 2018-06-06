@@ -8,5 +8,10 @@ docker:
     - curl
     - software-properties-common
 
+  path:
+    windows:
+    osx:
+    linux: /etc/docker
+
   release:
     reference_doc: https://docs.docker.com/install/linux/docker-ce/ubuntu/
