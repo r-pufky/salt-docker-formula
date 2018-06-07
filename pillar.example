@@ -10,6 +10,7 @@ docker:
       - curl
       - software-properties-common
 
+  config:
     # These are the default UID/GID for linuxserver.io documentation.
     container_uid: 1001
     container_gid: 1001
@@ -17,6 +18,3 @@ docker:
       windows:
       osx:
       linux: /etc/docker
-
-    release:
-      reference_doc: https://docs.docker.com/install/linux/docker-ce/ubuntu/

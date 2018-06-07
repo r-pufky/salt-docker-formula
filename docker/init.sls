@@ -1,4 +1,5 @@
 {%- from "docker/map.jinja" import docker with context -%}
+{%- set path = salt['pillar.get']('docker:config:path:linux', docker.path.linux) -%}
 
 docker_ppa_repo:
   pkgrepo.managed:
@@ -19,7 +20,7 @@ docker_package_dependencies:
 
 copy_docker_scripts:
   file.recurse:
-    - name: {{ docker.get('path.linux', docker.path.linux) }}
+    - name: {{ path }}
     - source: 'salt://docker/files'
     - template: jinja
     - dir_mode: 0750
