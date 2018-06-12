@@ -1,0 +1,25 @@
+{%- from "docker/map.jinja" import docker with context -%}
+
+docker run -t -d \
+  --name {{ name }} \
+{%- if 'options' in options -%}
+{% for key, value in options.options.items() %}
+  --{{ key }} {{ value }} \
+{%- endfor -%}
+{%- endif -%}
+{%- if 'ports' in options -%}
+{% for port in options.ports %}
+  -p {{ port }} \
+{%- endfor -%}
+{%- endif -%}
+{%- if 'environment' in options -%}
+{% for key, value in options.environment.items() %}
+  -e {{ key }}={{ value }} \
+{%- endfor -%}
+{%- endif -%}
+{%- if 'volumes' in options -%}
+{% for volume in options.volumes %}
+  -v {{ volume }} \
+{%- endfor -%}
+{% endif %}
+  {{ options.container }}

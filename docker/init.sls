@@ -1,5 +1,6 @@
 {%- from "docker/map.jinja" import docker with context -%}
 {%- set path = salt['pillar.get']('docker:config:path:linux', docker.path.linux) -%}
+{%- set containers = salt['pillar.get']('docker:standalone', {}) -%}
 
 docker_ppa_repo:
   pkgrepo.managed:
@@ -18,15 +19,20 @@ docker_package_dependencies:
       - {{ pkg }}
 {%- endfor %}
 
-copy_docker_scripts:
-  file.recurse:
-    - name: {{ path }}
-    - source: 'salt://docker/files'
+{% for container, options in containers.items() %}
+{{ path }}/{{ container }}:
+  file.managed:
+    - context:
+        name: {{ container }}
+        options: {{ options }}
+    - name: {{ path }}/{{ container }}
+    - source: 'salt://docker/files/container_standalone.jinja'
     - template: jinja
     - dir_mode: 0750
     - file_mode: 0740
     - user: root
     - group: staff
+{% endfor %}
 
 docker_service:
   service.running:

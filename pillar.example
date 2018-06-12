@@ -10,11 +10,48 @@ docker:
       - curl
       - software-properties-common
 
-  config:
-    # These are the default UID/GID for linuxserver.io documentation.
-    container_uid: 1001
-    container_gid: 1001
+    # where standalone container scripts are stored.
     path:
       windows:
       osx:
       linux: /etc/docker
+
+    release:
+      reference_doc: https://docs.docker.com/install/linux/docker-ce/ubuntu/
+
+  standalone:
+    # List of standalone container scripts to build.
+    # Name is container name in docker.
+    plex:
+      container: plexinc/pms-docker:plexpass
+      options:
+        network: host
+        restart: unless-stopped
+      environment:
+        PLEX_UID: 999
+        PLEX_GID: 5555
+        TZ: America/Los_Angeles
+      volumes:
+        - /etc/localtime:/etc/localtime:ro
+        - /data/services/plexmediaserver:/config
+        - /data/media:/data/media:ro
+        - /tmp:/transcode
+        - /data/downloads:/data/downloads
+    transmission:
+      container: linuxserver/transmission:latest
+      options:
+        network: bridge
+        restart: unless-stopped
+      ports:
+        - 9092:9092
+        - 49160:49160
+        - 49160:49160/udp
+      environment:
+        PUID: 999
+        PGID: 5555
+        TZ: America/Los_Angeles
+      volumes:
+        - /etc/localtime:/etc/localtime:ro
+        - /data/services/transmission:/config
+        - /data/downloads:/downloads
+        - /data/downloads/watched:/watch
