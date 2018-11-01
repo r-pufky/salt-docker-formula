@@ -3,7 +3,9 @@ docker:
   package: docker-ce
 
   package_dependencies:
+    {% if grains['oscodename'] == 'xenial' %}
     - apt-transport-https
+    {% endif %}
     - ca-certificates
     - curl
     - software-properties-common
